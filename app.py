@@ -5,8 +5,8 @@ from src.decoder import parse_ea3, convert_df_to_csv
 # ページ設定
 st.set_page_config(page_title="EA3 Decoder", layout="wide")
 
-st.title("📊 EA3 File Decoder")
-st.markdown("計測器の生データ(.ea3)をアップロードして、波形確認とCSV変換を行います。")
+st.title("EA3 File Decoder")
+st.markdown("計測器の生データ(.ea3)をアップロードして、波形確認とCSV変換を行います")
 
 # サイドバーにファイルアップロード
 with st.sidebar:
@@ -36,11 +36,11 @@ if uploaded_file is not None:
             x="データＸ", 
             y="データＹ", 
             title="XYリサージュ波形",
-            width=800,
+            width=600,
             height=600
         )
         # 点をつなぐ線も追加したい場合は px.line を使うか update_traces で調整
-        fig.update_traces(mode='lines+markers', marker=dict(size=4))
+        fig.update_traces(mode='markers', marker=dict(size=4))
         st.plotly_chart(fig, use_container_width=True)
 
         # --- データ表示 & ダウンロード ---
@@ -55,7 +55,7 @@ if uploaded_file is not None:
         
         # ダウンロードボタン
         st.download_button(
-            label="📥 CSVをダウンロード (Shift-JIS)",
+            label="CSVをダウンロード (Shift-JIS)",
             data=csv_str.encode('shift_jis'), # ここでエンコード
             file_name=f"{uploaded_file.name.split('.')[0]}.csv",
             mime='text/csv',
