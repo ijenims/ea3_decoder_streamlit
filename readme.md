@@ -1,4 +1,3 @@
-```markdown
 # 📊 EA3 File Decoder & Viewer
 
 計測器（EddyStationなど）が出力するバイナリ形式ファイル (`.ea3`) を解析し、波形データの可視化とCSV変換を行うWebアプリケーションです。
