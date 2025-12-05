@@ -64,7 +64,7 @@ ea3_decoder_streamlit/
 ## 📝 技術仕様 (解析ハイライト)
 
 本ツールは、メーカー仕様書および実データのリバースエンジニアリング結果に基づき、以下の仕様でデコードを行います。
-詳細は [Eddys_EA3_format.md](./EA3_SPEC.md) を参照してください。
+詳細は [Eddys_EA3_format.md](./Eddys_EA3_format.md) を参照してください。
 
 *   **データ構造**: ヘッダー(256B) + 波形データ(Int16) + フッター(可変長テキスト)
 *   **スケーリング**: $\text{Voltage} = \text{RawValue} / 3276.8$
