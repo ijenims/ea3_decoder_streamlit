@@ -22,10 +22,19 @@ if uploaded_file is not None:
     
     if df is not None:
         # --- メタデータ表示 ---
-        col1, col2, col3 = st.columns(3)
+        st.subheader("ファイル情報")
+        col1, col2, col3, col4 = st.columns(4)
         col1.metric("データ点数", f"{meta['valid_points']} 点")
-        col2.metric("スケーリング", f"1/{meta['scale_factor']}")
-        col3.success("解析成功")
+        col2.metric("サンプリング", f"{meta['sampling_rate']} Hz")
+        col3.metric("CH数", f"{meta['num_channels']} ch")
+        col4.metric("スケーリング", f"1/{meta['scale_factor']}")
+        
+        # if meta['title']:
+            # st.info(f"📁 タイトル: {meta['title']}")
+        st.info(f"ファイル解析完了")
+        
+        if meta['comment']:
+            st.caption(f"📝 コメント: {meta['comment']}")
 
         # --- グラフ描画 (Plotly) ---
         st.subheader("波形プレビュー")
@@ -51,7 +60,8 @@ if uploaded_file is not None:
             st.dataframe(df)
 
         # CSV生成
-        csv_str = convert_df_to_csv(df, meta['valid_points'])
+        # 辞書「meta」をまるごと渡すように変更
+        csv_str = convert_df_to_csv(df, meta)
         
         # ダウンロードボタン
         st.download_button(
