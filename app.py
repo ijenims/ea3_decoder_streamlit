@@ -1,5 +1,6 @@
 import streamlit as st
 import plotly.express as px
+import os
 from src.decoder import parse_ea3, convert_df_to_csv
 
 # ページ設定
@@ -53,23 +54,45 @@ if uploaded_file is not None:
         st.plotly_chart(fig, use_container_width=True)
 
         # --- データ表示 & ダウンロード ---
-        st.subheader("データ変換")
+        st.subheader("データ変換 & 保存")
         
         # 画面上で表を確認
         with st.expander("データテーブルを表示"):
             st.dataframe(df)
 
         # CSV生成
-        # 辞書「meta」をまるごと渡すように変更
         csv_str = convert_df_to_csv(df, meta)
         
-        # ダウンロードボタン
-        st.download_button(
-            label="CSVをダウンロード (Shift-JIS)",
-            data=csv_str.encode('shift_jis'), # ここでエンコード
-            file_name=f"{uploaded_file.name.split('.')[0]}.csv",
-            mime='text/csv',
-        )
+        # --- ファイル名入力エリア ---
+        col_input, col_btn = st.columns([3, 2]) # 入力欄とボタンを横並びに配置
+        
+        with col_input:
+            # アップロードされたファイル名から拡張子(.ea3)を除去してデフォルト値にする
+            default_name = os.path.splitext(uploaded_file.name)[0]
+            
+            save_name = st.text_input(
+                "保存ファイル名", 
+                value=default_name,
+                help="拡張子(.csv)は自動で付きます"
+            )
+            
+            # 拡張子 .csv がなければ付ける処理
+            if not save_name.endswith(".csv"):
+                save_name += ".csv"
+
+        with col_btn:
+            # レイアウト調整用（入力欄と高さを合わせるための空白）
+            st.write("") 
+            st.write("") 
+            
+            # ダウンロードボタン
+            st.download_button(
+                label="📥 CSVをダウンロード",
+                data=csv_str.encode('shift_jis'),
+                file_name=save_name, # 入力された名前を使用
+                mime='text/csv',
+                use_container_width=True # ボタンを横幅いっぱいに
+            )
         
     else:
         st.error(meta["error"])
