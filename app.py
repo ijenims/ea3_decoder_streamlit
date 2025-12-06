@@ -71,7 +71,7 @@ if uploaded_file is not None:
             default_name = os.path.splitext(uploaded_file.name)[0]
             
             save_name = st.text_input(
-                "保存ファイル名  ※入力後 Enter↲ を押したら反映", 
+                "保存ファイル名　　※入力後 Enter↲ を押したら反映", 
                 value=default_name,
                 help="拡張子(.csv)は自動で付きます"
             )
